@@ -1,13 +1,16 @@
 ## -*- docker-image-name: "bbs/mystic" -*-
 
-FROM debootstrap/wheezy
+FROM ubuntu
+
+MAINTAINER Dan <dan@ironoxide.ca>
 
 RUN apt-get update -q -q
-RUN apt-get upgrade --yes --force-yes
-RUN apt-get install libhunspell-dev less sudo byobu runit unrar curl --yes --force-yes
+RUN apt-get upgrade --yes --allow-unauthenticated --allow-downgrades --allow-remove-essential --allow-change-held-packages
+RUN apt-get install libhunspell-dev less sudo byobu runit unrar curl ibritish-insane ispell wbritish-insane spell --yes
 
-RUN curl http://mysticbbs.com/downloads/mys112a38_l64.rar -o /tmp/mystic.rar
+RUN curl --location https://raw.githubusercontent.com/dleslie/bbs-in-docker/master/mystic/mys112a38_l64.rar -o /tmp/mystic.rar
 RUN mkdir -p /usr/local/mystic/
-RUN pushd /usr/local/mystic/;unrar e -y /tmp/mystic.rar; popd
-
-ENTRYPOINT ["/usr/sbin/runsvdir-start"]
+WORKDIR /usr/local/mystic/
+RUN unrar e -y /tmp/mystic.rar
+RUN rm /tmp/mystic.rar
+ENV PATH=/usr/local/mystic:$PATH
