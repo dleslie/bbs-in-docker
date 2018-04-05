@@ -6,7 +6,7 @@ MAINTAINER Dan <dan@ironoxide.ca>
 
 RUN apt-get update -q -q
 RUN apt-get upgrade --yes --allow-unauthenticated --allow-downgrades --allow-remove-essential --allow-change-held-packages
-RUN apt-get install libhunspell-dev build-essential less sudo byobu runit unrar unzip p7zip-full curl ibritish-insane ispell wbritish-insane spell --yes
+RUN apt-get install libhunspell-dev build-essential less unrar unzip p7zip-full curl ibritish-insane ispell wbritish-insane spell libpython2.7 --yes
 
 WORKDIR /
 RUN curl --location https://raw.githubusercontent.com/dleslie/bbs-in-docker/master/mystic/mystic-112a38.x86-64.tar.xz --output - | tar Jx
@@ -19,8 +19,10 @@ RUN unzip -a /tmp/cl.zip
 RUN make shared
 RUN install -g users libcl.so.3.4.3 /usr/lib/libcl.so.3.4.3
 RUN ln -s /usr/lib/libcl.so.3.4.3 /usr/lib/libcl.so
+WORKDIR /
 RUN rm -rf /tmp/cl*
 
-EXPOSE 23
-
+WORKDIR /usr/local/mystic
 ENV PATH=/usr/local/mystic:$PATH
+
+EXPOSE 23
