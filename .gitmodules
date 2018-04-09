@@ -1,0 +1,6 @@
+[submodule "daydream/daydream"]
+	path = daydream/daydream
+	url = git@github.com:ryanfantus/daydream.git
+[submodule "x84/daydream"]
+	path = x84/daydream
+	url = git@github.com:ryanfantus/daydream.git
